@@ -1,0 +1,64 @@
+*,
+*::before,
+*::after
+{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    font-family: 'Segoe UI';
+}
+
+ul{
+    list-style: none;
+}
+
+.wrapper-container{
+    max-width: 1000px;
+    height: 100vh;
+    margin-right: auto;
+    margin-left: auto;
+    background-image: linear-gradient(to left, rgb(118, 241, 93) , rgb(158, 252, 186));
+    padding-top: 30px;
+}
+
+.card-input{
+    text-align: center;
+    margin: 0 auto;
+    min-height: 30vh;
+    width: 33%;
+    background-color: rgb(255, 238, 0);
+    display: flex;
+    justify-content: center;
+}
+
+.card-list{
+    min-height: 15vh;
+    text-align: center;
+    margin: 0 auto;
+    width: 33%;
+    background-color: white;
+}
+
+.input{
+    width: 65%;
+    margin-top: 10px;
+    border-radius: 20px;
+    padding: .3rem 1rem;
+    background-color: rgba(255, 255, 255, 0.74);
+    border: none;
+    height: 2rem;
+}
+
+.add-btn{
+    color: white;
+    background-color: black;
+    border-color: yellow;
+    border-radius: 50%;
+    height: 3.5rem;
+    width: 3.5rem;
+    font-size: 20px;
+    margin-top: 15px;
+}
