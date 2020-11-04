@@ -4,6 +4,11 @@ todoList.push({id: 0, title: 'Test', eventDate: new Date(), description: 'Some d
 todoList.push({id: 1, title: 'Works', eventDate: new Date(), description: 'This works too!'});
 
 const todoElm = document.querySelector('.todo-list');
+const addButtonElm = document.querySelector('.addButton');
+
+function addTodoItem() {
+    
+}
 
 function populateTodoItem(item) {
     let iconHTML = '';
