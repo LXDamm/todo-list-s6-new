@@ -1,14 +1,32 @@
 let todoList = [];
 
-todoList.push({id: 0, title: 'Test', eventDate: new Date(), description: 'Some description text'});
-todoList.push({id: 1, title: 'Works', eventDate: new Date(), description: 'This works too!'});
+todoList.push({id: 0, title: 'Test', eventDate: new Date(), checked: false, description: 'Some description text'});
+todoList.push({id: 1, title: 'Works', eventDate: new Date(), checked: true, description: 'This works too!'});
 
 const todoElm = document.querySelector('.todo-list');
-const close = document.querySelector('.close')
-const button = document.querySelector('.button')
+const popupElm = document.querySelector('.popup');
+const addItemButtonElm = document.querySelector('#add-item-button')
+const addPopupButtonElm = document.querySelector('#add-popup-button');
+const closePopupElm = document.querySelector('#close-popup-button');
+const todoTitleElm = document.querySelector('.input-title');
+const todoDescriptionElm = document.querySelector('.input-description');
+const todoTimeElm = document.querySelector('.input-time');
+
+function showPopup() {
+    popupElm.style.display = 'flex';
+    console.log(closePopupElm);
+}
+
+function closePopup() {
+    popupElm.style.display = 'none';
+}
 
 function addTodoItem() {
-    
+    const title = todoTitleElm.value;
+    const description = todoDescriptionElm.value;
+    const time = todoTimeElm.value;
+    todoList.push({title: title, description: description, eventDate: time});
+    closePopup();
 }
 
 function populateTodoItem(item) {
@@ -32,14 +50,10 @@ function populateUI() {
 }
 
 function loadEventListeners() {
-    button.addEventListener('click', function(){
-        document.querySelector('.popup').style.display = 'flex'
-    })
-    
-    close.addEventListener('click', function(){
-        document.querySelector('.popup').style.display = 'none'
-    })
-    addButtonElm.addEventListener('click', addTodoItem);
+    addItemButtonElm.addEventListener('click', showPopup);
+    addPopupButtonElm.addEventListener('click', addTodoItem);
+    todoAddButtonElm.addEventListener('click', addTodoItem);
+    closePopupElm.addEventListener('click', closePopup);
     document.addEventListener('DOMContentLoaded', populateUI);
 }
 
