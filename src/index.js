@@ -3,30 +3,36 @@ import { v4 as uuidv4 } from 'uuid';
 let todoList = [];
 
 todoList.push({id: 0, title: 'Test', eventDate: new Date(), checked: false, description: 'Some description text'});
-todoList.push({id: 1, title: 'Works', eventDate: new Date(), checked: true, description: 'This works too!'});
 
 const todoElm = document.querySelector('.todo-list');
+const openPopupButtonElm = document.querySelector('.open-popup-button');
+const closePopupButtonElm = document.querySelector('.close-popup-button');
+const addItemButtonElm = document.querySelector('.add-item-button');
 const popupElm = document.querySelector('.popup');
-const addItemButtonElm = document.querySelector('#add-item-button')
-const addPopupButtonElm = document.querySelector('#add-popup-button');
-const closePopupElm = document.querySelector('#close-popup-button');
 const todoTitleElm = document.querySelector('.input-title');
 const todoDescriptionElm = document.querySelector('.input-description');
-const todoTimeElm = document.querySelector('.input-time');
+const todoTimeHoursElm = document.querySelector('.input-time-hours');
+const todoTimeMinutesElm = document.querySelector('.input-time-minutes');
 
 function showPopup() {
     popupElm.style.display = 'flex';
-    console.log(closePopupElm);
 }
 
 function closePopup() {
     popupElm.style.display = 'none';
+    todoTitleElm.value = 'Title';
+    todoTimeHoursElm.value = 'Hours';
+    todoTimeMinutesElm.value = 'Minutes';
+    todoDescriptionElm.value = 'Description';
 }
 
 function addTodoItem() {
     const title = todoTitleElm.value;
     const description = todoDescriptionElm.value;
-    const time = todoTimeElm.value;
+    const time = new Date();
+    time.setHours(Number(todoTimeHoursElm.value));
+    time.setMinutes(Number(todoTimeMinutesElm.value));
+    time.setSeconds(0);
     let item = {
         id: uuidv4(),
         title: title,
@@ -36,6 +42,7 @@ function addTodoItem() {
     };
     todoList.push(item);
     closePopup();
+    populateUI();
 }
 
 function populateTodoItem(item) {
@@ -44,7 +51,7 @@ function populateTodoItem(item) {
         iconHTML = '<i class="fas fa-check"></i>';
     }
 
-    return `<li><div><span>Title: ${item.title}</span> <span>${iconHTML} <span>${item.eventDate.toUTCString()}</span><br>${item.description}<div></li>`;
+    return `<li class="list-item"><div><span>Title: ${item.title}</span> <span>${iconHTML} <span>${item.eventDate.toUTCString()}</span><br>${item.description}<div></li>`;
 }
 
 function populateList() {
@@ -59,10 +66,9 @@ function populateUI() {
 }
 
 function loadEventListeners() {
-    addItemButtonElm.addEventListener('click', showPopup);
-    addPopupButtonElm.addEventListener('click', addTodoItem);
-    todoAddButtonElm.addEventListener('click', addTodoItem);
-    closePopupElm.addEventListener('click', closePopup);
+    openPopupButtonElm.addEventListener('click', showPopup);
+    closePopupButtonElm.addEventListener('click', closePopup);
+    addItemButtonElm.addEventListener('click', addTodoItem);
     document.addEventListener('DOMContentLoaded', populateUI);
 }
 
