@@ -12,16 +12,27 @@
       <div class="main-card">
         <div class="card-input">
           <input type="text" class="input" placeholder="🔍 Search...">
-          <!-- <h1 class="date"></h1> -->
+          <h1 class="dates"></h1>
         </div>
         <div class="card-list">
           <ul class="todo-list">
-            
+            <li class="list-item"></li>
           </ul>
-          <button class="add-btn">+</button>
+          <button class="button">+</button>
         </div>
       </div>
     </div>
-    <script src="script.js"></script>
+    <div class="popup">
+      <div class="popup-content">
+        <form class="task-form">
+          <img src="close.png" alt="Close" class="close">
+          <input type="text" placeholder="Title" class="submit-input input-title">
+          <input type="text" placeholder="Description" class="submit-input input-description">
+          <input type="text" placeholder="At what time?" class="submit-input input-time">
+          <button class="button input-button">+</a>
+        </form>
+      </div>
+    </div>
+    <script src="app.js"></script>
   </body>
 </html>
