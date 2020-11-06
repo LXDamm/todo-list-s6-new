@@ -4,34 +4,41 @@ let todoList = [];
 
 todoList.push({id: 0, title: 'Test', eventDate: new Date(), checked: false, description: 'Some description text'});
 
-const todoElm = document.querySelector('.todo-list');
-const openPopupButtonElm = document.querySelector('.open-popup-button');
-const closePopupButtonElm = document.querySelector('.close-popup-button');
-const addItemButtonElm = document.querySelector('.add-item-button');
-const popupElm = document.querySelector('.popup');
-const todoTitleElm = document.querySelector('.input-title');
-const todoDescriptionElm = document.querySelector('.input-description');
-const todoTimeHoursElm = document.querySelector('.input-time-hours');
-const todoTimeMinutesElm = document.querySelector('.input-time-minutes');
+const searchInputE = document.querySelector('.search-input');
+const todoE = document.querySelector('.todo-list');
+const openPopupButtonE = document.querySelector('.open-popup-button');
+const closePopupButtonE = document.querySelector('.close-popup-button');
+const addItemButtonE = document.querySelector('.add-item-button');
+const popupE = document.querySelector('.popup');
+const todoTitleE = document.querySelector('.input-title');
+const todoDescriptionE = document.querySelector('.input-description');
+const todoTimeHoursE = document.querySelector('.input-time-hours');
+const todoTimeMinutesE = document.querySelector('.input-time-minutes');
+
+function filterSearch(title) {
+    const searchRE = new RegExp(`^${searchInputE.value.toLowerCase()}.*`, 'gm');
+    if (title.toLowerCase().match(searchRE)) return true;
+    return false;
+}
 
 function showPopup() {
-    popupElm.style.display = 'flex';
+    popupE.style.display = 'flex';
 }
 
 function closePopup() {
-    popupElm.style.display = 'none';
-    todoTitleElm.value = 'Title';
-    todoTimeHoursElm.value = 'Hours';
-    todoTimeMinutesElm.value = 'Minutes';
-    todoDescriptionElm.value = 'Description';
+    popupE.style.display = 'none';
+    todoTitleE.value = '';
+    todoTimeHoursE.value = '';
+    todoTimeMinutesE.value = '';
+    todoDescriptionE.value = '';
 }
 
 function addTodoItem() {
-    const title = todoTitleElm.value;
-    const description = todoDescriptionElm.value;
+    const title = todoTitleE.value;
+    const description = todoDescriptionE.value;
     const time = new Date();
-    time.setHours(Number(todoTimeHoursElm.value));
-    time.setMinutes(Number(todoTimeMinutesElm.value));
+    time.setHours(Number(todoTimeHoursE.value));
+    time.setMinutes(Number(todoTimeMinutesE.value));
     time.setSeconds(0);
     let item = {
         id: uuidv4(),
@@ -55,9 +62,11 @@ function populateTodoItem(item) {
 }
 
 function populateList() {
-    todoElm.innerHTML = '';
+    todoE.innerHTML = '';
     todoList.forEach((item) => {
-        todoElm.innerHTML += populateTodoItem(item);
+        if (filterSearch(item.title) == true) {
+            todoE.innerHTML += populateTodoItem(item);
+        }
     });
 }
 
@@ -66,9 +75,10 @@ function populateUI() {
 }
 
 function loadEventListeners() {
-    openPopupButtonElm.addEventListener('click', showPopup);
-    closePopupButtonElm.addEventListener('click', closePopup);
-    addItemButtonElm.addEventListener('click', addTodoItem);
+    openPopupButtonE.addEventListener('click', showPopup);
+    closePopupButtonE.addEventListener('click', closePopup);
+    addItemButtonE.addEventListener('click', addTodoItem);
+    searchInputE.addEventListener('input', populateList);
     document.addEventListener('DOMContentLoaded', populateUI);
 }
 
