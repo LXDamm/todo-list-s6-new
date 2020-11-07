@@ -2,8 +2,6 @@ import { v4 as uuidv4 } from 'uuid';
 
 let todoList = [];
 
-todoList.push({id: 0, title: 'Test', eventDate: new Date(), checked: false, description: 'Some description text'});
-
 const searchInputE = document.querySelector('.search-input');
 const todoE = document.querySelector('.todo-list');
 const openPopupButtonE = document.querySelector('.open-popup-button');
@@ -48,6 +46,7 @@ function addTodoItem() {
         description: description
     };
     todoList.push(item);
+    localStorage.setItem("todo-list", JSON.stringify(todoList));
     closePopup();
     populateUI();
 }
@@ -58,11 +57,12 @@ function populateTodoItem(item) {
         iconHTML = '<i class="fas fa-check"></i>';
     }
 
-    return `<li class="list-item"><div><span>Title: ${item.title}</span> <span>${iconHTML} <span>${item.eventDate.toUTCString()}</span><br>${item.description}<div></li>`;
+    return `<li class="list-item"><div><span>Title: ${item.title}</span> <span>${iconHTML} <span>[Tid]</span><br>${item.description}<div></li>`;
 }
 
 function populateList() {
     todoE.innerHTML = '';
+    todoList = JSON.parse(localStorage.getItem('todo-list'));
     todoList.forEach((item) => {
         if (filterSearch(item.title) == true) {
             todoE.innerHTML += populateTodoItem(item);
