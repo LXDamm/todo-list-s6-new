@@ -20,11 +20,13 @@ function filterSearch(title) {
     return false;
 }
 
-function showPopup() {
+function showPopup(event) {
+    event.preventDefault();
     popupE.style.display = 'flex';
 }
 
 function closePopup() {
+    event.preventDefault();
     popupE.style.display = 'none';
     todoTitleE.value = '';
     todoTimeHoursE.value = '';
@@ -43,7 +45,7 @@ function addTodoItem() {
         id: uuidv4(),
         title: title,
         eventDate: time,
-        checked: false,
+        done: false,
         description: description
     };
     todoList.push(item);
@@ -61,31 +63,43 @@ function deleteTodoItem(id) {
     populateUI();
 }
 
+function doneTodoItem(id) {
+    const index = todoList.findIndex((item) => {
+        return item.id == id;
+    });
+    todoList[index].done = true;
+    localStorage.setItem('todo-list', JSON.stringify(todoList));
+    populateUI();
+}
+
 function populateCurrentDate() {
+    let options = { month: 'long', weekday: 'long'};
     const currentDate = new Date();
     currentDateE.innerHTML = `
         <div class="current-date-date">${currentDate.getDate()}</div>
-        <div class="current-date-month">${currentDate.getMonth()}</div>
+        <div class="current-date-month-year">
+            <div class="current-date-month">${currentDate.getMonth()}</div>
+            <div class="current-date-year">${currentDate.getFullYear()}</div>
+        </div>
         <div class="current-date-time">${currentDate.getHours()}:${currentDate.getMinutes()}</div>
-        <div class="current-date-year">${currentDate.getFullYear()}</div>
         <div class="current-date-day">${currentDate.getDay()}</div>
     `;
 }
 
 function populateTodoItem(item) {
     let done = '';
-    let iconHTML = '';
-    if (item.checked) {
-        done = ' list-item-done';
-        iconHTML = '<i class="fas fa-check list-item-checked"></i>';
-    }
+    if (item.done) done = ' list-item-done';
     const HTML = `
         <li id="${item.id}" class="list-item${done}">
-            <div class="list-item-title">${item.title}</div>
-            <div class="list-item-description">${item.description}</div>
-            <div class="list-item-time">${item.eventDate.getHours()}:${item.eventDate.getMinutes()}</div>
-            ${iconHTML}
-            <i class="fas fa-trash list-item-delete"></i>
+            <div class="list-item-main">
+                <div class="list-item-title">${item.title}</div>
+                <div class="list-item-description">${item.description}</div>
+                <div class="list-item-time">${item.eventDate.getHours()}:${item.eventDate.getMinutes()}</div>
+            </div>
+            <div class="list-item-secondary">
+                <i class="fas fa-check list-item-checkmark"></i>
+                <i class="fas fa-trash list-item-delete"></i>
+            </div>
         </li>
     `;
     return HTML;
@@ -98,12 +112,6 @@ function populateList() {
         if (filterSearch(item.title) == true) {
             item.eventDate = new Date(item.eventDate);
             todoE.innerHTML += populateTodoItem(item);
-            const liItemE = document.getElementById(item.id);
-            const trashE = liItemE.querySelector('.list-item-delete');
-            trashE.addEventListener('click', () => {
-                let id = item.id;
-                deleteTodoItem(id);
-            });
         }
     });
 }
@@ -111,14 +119,30 @@ function populateList() {
 function populateUI() {
     populateCurrentDate();
     populateList();
+    loadItemEventListeners();
 }
 
 function loadEventListeners() {
     openPopupButtonE.addEventListener('click', showPopup);
     closePopupButtonE.addEventListener('click', closePopup);
     addItemButtonE.addEventListener('click', addTodoItem);
-    searchInputE.addEventListener('input', populateList);
+    searchInputE.addEventListener('input', populateUI);
     document.addEventListener('DOMContentLoaded', populateUI);
 }
 
+function loadItemEventListeners() {
+    todoList.forEach((item) => {
+        const liItemE = document.getElementById(item.id);
+        const checkmarkE = liItemE.querySelector('.list-item-checkmark');
+        const trashE = liItemE.querySelector('.list-item-delete');
+        checkmarkE.addEventListener('click', () => doneTodoItem(item.id));
+        trashE.addEventListener('click', () => deleteTodoItem(item.id));
+    });
+}
+
+setInterval(() => {
+    populateUI();
+}, 10000);
+
+populateUI();
 loadEventListeners();
