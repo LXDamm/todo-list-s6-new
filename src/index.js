@@ -2,9 +2,8 @@ import { v4 as uuidv4 } from 'uuid';
 
 let todoList = [];
 
-todoList.push({id: 0, title: 'Test', eventDate: new Date(), checked: false, description: 'Some description text'});
-
 const searchInputE = document.querySelector('.search-input');
+const currentDateE = document.querySelector('.current-date');
 const todoE = document.querySelector('.todo-list');
 const openPopupButtonE = document.querySelector('.open-popup-button');
 const closePopupButtonE = document.querySelector('.close-popup-button');
@@ -48,29 +47,69 @@ function addTodoItem() {
         description: description
     };
     todoList.push(item);
+    localStorage.setItem("todo-list", JSON.stringify(todoList));
     closePopup();
     populateUI();
 }
 
+function deleteTodoItem(id) {
+    const index = todoList.findIndex((item) => {
+        return item.id == id;
+    });
+    todoList.splice(index, 1);
+    localStorage.setItem('todo-list', JSON.stringify(todoList));
+    populateUI();
+}
+
+function populateCurrentDate() {
+    const currentDate = new Date();
+    currentDateE.innerHTML = `
+        <div class="current-date-date">${currentDate.getDate()}</div>
+        <div class="current-date-month">${currentDate.getMonth()}</div>
+        <div class="current-date-time">${currentDate.getHours()}:${currentDate.getMinutes()}</div>
+        <div class="current-date-year">${currentDate.getFullYear()}</div>
+        <div class="current-date-day">${currentDate.getDay()}</div>
+    `;
+}
+
 function populateTodoItem(item) {
+    let done = '';
     let iconHTML = '';
     if (item.checked) {
-        iconHTML = '<i class="fas fa-check"></i>';
+        done = ' list-item-done';
+        iconHTML = '<i class="fas fa-check list-item-checked"></i>';
     }
-
-    return `<li class="list-item"><div><span>Title: ${item.title}</span> <span>${iconHTML} <span>${item.eventDate.toUTCString()}</span><br>${item.description}<div></li>`;
+    const HTML = `
+        <li id="${item.id}" class="list-item${done}">
+            <div class="list-item-title">${item.title}</div>
+            <div class="list-item-description">${item.description}</div>
+            <div class="list-item-time">${item.eventDate.getHours()}:${item.eventDate.getMinutes()}</div>
+            ${iconHTML}
+            <i class="fas fa-trash list-item-delete"></i>
+        </li>
+    `;
+    return HTML;
 }
 
 function populateList() {
     todoE.innerHTML = '';
+    todoList = JSON.parse(localStorage.getItem('todo-list'));
     todoList.forEach((item) => {
         if (filterSearch(item.title) == true) {
+            item.eventDate = new Date(item.eventDate);
             todoE.innerHTML += populateTodoItem(item);
+            const liItemE = document.getElementById(item.id);
+            const trashE = liItemE.querySelector('.list-item-delete');
+            trashE.addEventListener('click', () => {
+                let id = item.id;
+                deleteTodoItem(id);
+            });
         }
     });
 }
 
 function populateUI() {
+    populateCurrentDate();
     populateList();
 }
 

@@ -24,21 +24,25 @@ ul{
     padding-top: 30px;
 }
 
-.card-input{
-    text-align: center;
+.card-input, .card-current-date, .card-list {
     margin: 0 auto;
-    min-height: 30vh;
     width: 33%;
+    text-align: center;
+}
+
+.card-input {
+    min-height: 30vh;
     background-color: rgb(255, 238, 0);
     display: flex;
     justify-content: center;
 }
 
-.card-list{
+.card-current-date {
+    background-color: rgb(255, 238, 0);
+}
+
+.card-list {
     min-height: 20vh;
-    text-align: center;
-    margin: 0 auto;
-    width: 33%;
     background-color: rgb(233, 232, 232);
 }
 
@@ -119,10 +123,11 @@ ul{
     cursor: pointer;
 }
 
-/* tillfällig li placeholder */
+/* li  */
 .todo-list{
-    display: flex;
+    /* display: flex; */
     justify-content: center;
+    padding-top: 10px;
 }
 
 .list-item{
@@ -131,4 +136,28 @@ ul{
     width: 80%;
     height: 70px;
     border-left: 3px solid rgb(58, 148, 46);
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.list-item-done {
+    opacity: 0.5;
+}
+
+.list-item-title{
+    font-weight: bold;
+    font-size: 15px;
+    color: rgb(58, 148, 46);
+}
+
+.list-item-description{
+    font-size: 13px;
+}
+
+.list-item-icon{
+
+}
+
+.list-item-time{
+    font-size: 12px;
 }
