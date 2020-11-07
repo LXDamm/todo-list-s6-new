@@ -121,8 +121,9 @@ ul{
 
 /* tillfällig li placeholder */
 .todo-list{
-    display: flex;
+    /* display: flex; */
     justify-content: center;
+    display: flow-root;
 }
 
 .list-item{
@@ -131,4 +132,6 @@ ul{
     width: 80%;
     height: 70px;
     border-left: 3px solid rgb(58, 148, 46);
+    margin-left: auto;
+    margin-right: auto;
 }
