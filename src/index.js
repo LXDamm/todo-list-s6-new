@@ -87,6 +87,7 @@ function populateCurrentDate() {
 }
 
 function populateTodoItem(item) {
+    const zeroPad = (num, places) => String(num).padStart(places, '0')
     let done = '';
     if (item.done) done = ' list-item-done';
     const HTML = `
@@ -94,7 +95,7 @@ function populateTodoItem(item) {
             <div class="list-item-main">
                 <div class="list-item-title">${item.title}</div>
                 <div class="list-item-description">${item.description}</div>
-                <div class="list-item-time">${item.eventDate.getHours()}:${item.eventDate.getMinutes()}</div>
+                <div class="list-item-time">${zeroPad(item.eventDate.getHours(), 2)}:${zeroPad(item.eventDate.getMinutes(), 2)}</div>
             </div>
             <div class="list-item-secondary">
                 <i class="fas fa-check list-item-checkmark"></i>
