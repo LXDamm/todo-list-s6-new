@@ -73,12 +73,14 @@ function doneTodoItem(id) {
 }
 
 function populateCurrentDate() {
-    let options = { month: 'long', weekday: 'long'};
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     const currentDate = new Date();
+    const longMonth = months[currentDate.getMonth()]; 
+    console.log(longMonth);
     currentDateE.innerHTML = `
         <div class="current-date-date">${currentDate.getDate()}</div>
         <div class="current-date-month-year">
-            <div class="current-date-month">${currentDate.getMonth()}</div>
+            <div class="current-date-month">${longMonth}</div>
             <div class="current-date-year">${currentDate.getFullYear()}</div>
         </div>
         <div class="current-date-time">${currentDate.getHours()}:${currentDate.getMinutes()}</div>
@@ -141,9 +143,9 @@ function loadItemEventListeners() {
     });
 }
 
-setInterval(() => {
+/*setInterval(() => {
     populateUI();
 }, 10000);
-
+*/
 populateUI();
 loadEventListeners();
