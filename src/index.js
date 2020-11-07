@@ -51,13 +51,33 @@ function addTodoItem() {
     populateUI();
 }
 
+function deleteTodoItem(id) {
+    const index = todoList.findIndex((item) => {
+        console.log(item.id, id);
+        return item.id == id;
+    });
+    todoList.splice(index, 1);
+    localStorage.setItem('todo-list', JSON.stringify(todoList));
+    populateUI();
+}
+
 function populateTodoItem(item) {
+    let done = '';
     let iconHTML = '';
     if (item.checked) {
-        iconHTML = '<i class="fas fa-check"></i>';
+        done = ' list-item-done';
+        iconHTML = '<i class="fas fa-check list-item-checked"></i>';
     }
-
-    return `<li class="list-item"><div><span>Title: ${item.title}</span> <span>${iconHTML} <span>[Tid]</span><br>${item.description}<div></li>`;
+    const HTML = `
+        <li id="${item.id}" class="list-item${done}">
+            <div class="list-item-title">${item.title}</div>
+            <div class="list-item-description">${item.description}</div>
+            <div class="list-item-time">${item.eventDate.getHours()}:${item.eventDate.getMinutes()}</div>
+            ${iconHTML}
+            <i class="fas fa-trash list-item-delete"></i>
+        </li>
+    `;
+    return HTML;
 }
 
 function populateList() {
@@ -65,7 +85,13 @@ function populateList() {
     todoList = JSON.parse(localStorage.getItem('todo-list'));
     todoList.forEach((item) => {
         if (filterSearch(item.title) == true) {
+            item.eventDate = new Date(item.eventDate);
             todoE.innerHTML += populateTodoItem(item);
+            const liItemE = document.getElementById(item.id);
+            const trashE = liItemE.querySelector('.list-item-delete');
+            trashE.addEventListener('click', () => {
+                deleteTodoItem(item.id);
+            });
         }
     });
 }

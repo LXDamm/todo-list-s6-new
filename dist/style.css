@@ -119,11 +119,11 @@ ul{
     cursor: pointer;
 }
 
-/* tillfällig li placeholder */
+/* li  */
 .todo-list{
     /* display: flex; */
     justify-content: center;
-    display: flow-root;
+    padding-top: 10px;
 }
 
 .list-item{
@@ -135,3 +135,26 @@ ul{
     margin-left: auto;
     margin-right: auto;
 }
+
+.list-item-done {
+    opacity: 0.5;
+}
+
+.list-item-title{
+    font-weight: bold;
+    font-size: 15px;
+    color: rgb(58, 148, 46);
+}
+
+.list-item-description{
+    font-size: 13px;
+}
+
+.list-item-icon{
+
+}
+
+.list-item-time{
+    font-size: 12px;
+}
+
