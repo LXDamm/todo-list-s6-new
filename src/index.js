@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 let todoList = [];
 
 const searchInputE = document.querySelector('.search-input');
+const currentDateE = document.querySelector('.current-date');
 const todoE = document.querySelector('.todo-list');
 const openPopupButtonE = document.querySelector('.open-popup-button');
 const closePopupButtonE = document.querySelector('.close-popup-button');
@@ -53,12 +54,22 @@ function addTodoItem() {
 
 function deleteTodoItem(id) {
     const index = todoList.findIndex((item) => {
-        console.log(item.id, id);
         return item.id == id;
     });
     todoList.splice(index, 1);
     localStorage.setItem('todo-list', JSON.stringify(todoList));
     populateUI();
+}
+
+function populateCurrentDate() {
+    const currentDate = new Date();
+    currentDateE.innerHTML = `
+        <div class="current-date-date">${currentDate.getDate()}</div>
+        <div class="current-date-month">${currentDate.getMonth()}</div>
+        <div class="current-date-time">${currentDate.getHours()}:${currentDate.getMinutes()}</div>
+        <div class="current-date-year">${currentDate.getFullYear()}</div>
+        <div class="current-date-day">${currentDate.getDay()}</div>
+    `;
 }
 
 function populateTodoItem(item) {
@@ -90,13 +101,15 @@ function populateList() {
             const liItemE = document.getElementById(item.id);
             const trashE = liItemE.querySelector('.list-item-delete');
             trashE.addEventListener('click', () => {
-                deleteTodoItem(item.id);
+                let id = item.id;
+                deleteTodoItem(id);
             });
         }
     });
 }
 
 function populateUI() {
+    populateCurrentDate();
     populateList();
 }
 

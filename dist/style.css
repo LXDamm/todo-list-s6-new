@@ -24,21 +24,25 @@ ul{
     padding-top: 30px;
 }
 
-.card-input{
-    text-align: center;
+.card-input, .card-current-date, .card-list {
     margin: 0 auto;
-    min-height: 30vh;
     width: 33%;
+    text-align: center;
+}
+
+.card-input {
+    min-height: 30vh;
     background-color: rgb(255, 238, 0);
     display: flex;
     justify-content: center;
 }
 
-.card-list{
+.card-current-date {
+    background-color: rgb(255, 238, 0);
+}
+
+.card-list {
     min-height: 20vh;
-    text-align: center;
-    margin: 0 auto;
-    width: 33%;
     background-color: rgb(233, 232, 232);
 }
 
@@ -157,4 +161,3 @@ ul{
 .list-item-time{
     font-size: 12px;
 }
-
