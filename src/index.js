@@ -74,9 +74,10 @@ function doneTodoItem(id) {
 
 function populateCurrentDate() {
     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const days = ['Sunday', 'Monday', 'Tuesday', 'Wendsday', 'Thurstday', 'Friday', 'Saturday'];
     const currentDate = new Date();
-    const longMonth = months[currentDate.getMonth()]; 
-    console.log(longMonth);
+    const longMonth = months[currentDate.getMonth() - 1]; 
+    const longDay = days[currentDate.getDay()];
     currentDateE.innerHTML = `
         <div class="current-date-date">${currentDate.getDate()}</div>
         <div class="current-date-month-year">
@@ -84,12 +85,12 @@ function populateCurrentDate() {
             <div class="current-date-year">${currentDate.getFullYear()}</div>
         </div>
         <div class="current-date-time">${currentDate.getHours()}:${currentDate.getMinutes()}</div>
-        <div class="current-date-day">${currentDate.getDay()}</div>
+        <div class="current-date-day">${longDay}</div>
     `;
 }
 
 function populateTodoItem(item) {
-    const zeroPad = (num, places) => String(num).padStart(places, '0')
+    const zeroPad = (num, places) => String(num).padStart(places, '0');
     let done = '';
     if (item.done) done = ' list-item-done';
     const HTML = `
@@ -143,9 +144,9 @@ function loadItemEventListeners() {
     });
 }
 
-/*setInterval(() => {
+setInterval(() => {
     populateUI();
 }, 10000);
-*/
+
 populateUI();
 loadEventListeners();
